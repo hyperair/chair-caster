@@ -6,9 +6,10 @@ pin_depth = 23;
 
 shaft_d = 6;
 shaft_wall_thickness = 5;
+
 wheel_d = 50;
-wheel_clearance = 3;
-wheel_cover_thickness = 2;
+wheel_clearance = 6;
+wheel_cover_thickness = -epsilon;
 wheel_cover_d = wheel_d + wheel_clearance + wheel_cover_thickness;
 center_thickness = 14;
 
