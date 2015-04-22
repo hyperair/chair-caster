@@ -68,7 +68,7 @@ module caster ()
         );
 
         // pin
-        translate ([shaft_offset, 0, hub_height - pin_depth])
+        translate ([shaft_offset, 0, hub_height + hub_extra_height - pin_depth])
         ridged_hole (
             d = pin_d + 0.3,
             h = wheel_d,
