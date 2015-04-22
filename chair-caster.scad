@@ -1,6 +1,8 @@
 use <MCAD/shapes/polyhole.scad>
 include <MCAD/units/metric.scad>
 
+use <common.scad>
+
 pin_d = 6.7;
 pin_depth = 21.5;
 pin_ridge_elevation = 3;
@@ -25,46 +27,6 @@ shaft_offset = hub_d / 2;
 
 $fs = 0.4;
 $fa = 1;
-
-module trapezoid (u, d, h)
-{
-    delta = d - u;
-
-    polygon ([
-            [0, 0],
-            [d, 0],
-            [d - delta / 2, h],
-            [delta / 2, h]
-        ]);
-}
-
-module round (r)
-offset (r = r)
-offset (r = -r)
-children ();
-
-module filleted_cylinder (d1, d2, h, fillet_r)
-{
-    rotate_extrude () {
-        intersection () {
-            round (-fillet_r)
-            union () {
-                intersection () {
-                    translate ([-d1 / 2, 0])
-                    trapezoid (d = d1, u = d2, h = h);
-
-                    translate ([-500, 0])
-                    square ([1000, 1000]);
-                }
-
-                mirror (Y)
-                square ([1000, 1000]);
-            }
-
-            square ([1000, 1000]);
-        }
-    }
-}
 
 module caster ()
 {
@@ -107,16 +69,13 @@ module caster ()
 
         // pin
         translate ([shaft_offset, 0, hub_height - pin_depth])
-        difference () {
-            mcad_polyhole (d = pin_d + 0.3, h = wheel_d);
-
-            rotate_extrude () {
-                translate ([(pin_d + 0.3 + 0.2) / 2, pin_ridge_elevation])
-                rotate (90, Z)
-                trapezoid (u = pin_ridge_height - pin_ridge_depth * 2,
-                    d = pin_ridge_height, h = pin_ridge_depth);
-            }
-        }
+        ridged_hole (
+            d = pin_d + 0.3,
+            h = wheel_d,
+            ridge_height = pin_ridge_height,
+            ridge_elevation = pin_ridge_elevation,
+            ridge_depth = pin_ridge_depth
+        );
 
         // shaft
         rotate (90, X)
