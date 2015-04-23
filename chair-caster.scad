@@ -21,7 +21,7 @@ center_thickness = 14;
 caster_width = 38;
 hub_d = caster_width;
 hub_height = wheel_cover_d / 2;
-hub_extra_height = 5;
+hub_extra_height = 0;
 hub_min_width = 4;
 shaft_offset = hub_d / 2;
 
